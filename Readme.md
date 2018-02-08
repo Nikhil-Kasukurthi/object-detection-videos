@@ -23,6 +23,10 @@ sudo pip install lxml
 sudo pip install jupyter
 sudo pip install matplotlib
 ```
+### Compiling the protocol buffers
+`protoc object_detection/protos/*.proto --python_out=.`
+
+
 ## Running the script
 
 ` python run.py `
