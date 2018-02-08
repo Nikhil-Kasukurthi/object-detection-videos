@@ -15,8 +15,9 @@ import cv2
 if tf.__version__ < '1.4.0':
   raise ImportError('Please upgrade your tensorflow installation to v1.4.* or later!')
 
+sys.path.insert(0, 'utils')
 import label_map_util
-import utils
+import class_utils
 import visualization_utils as vis_util
 
 
@@ -31,7 +32,7 @@ DOWNLOAD_BASE = 'http://download.tensorflow.org/models/object_detection/'
 PATH_TO_CKPT = MODEL_NAME + '/frozen_inference_graph.pb'
 
 # List of the strings that is used to add correct label for each box.
-PATH_TO_LABELS = 'mscoco_label_map.pbtxt'
+PATH_TO_LABELS = 'utils/mscoco_label_map.pbtxt'
 
 NUM_CLASSES = 90
 
@@ -99,7 +100,6 @@ with detection_graph.as_default():
             category_index,
             use_normalized_coordinates=True,
             line_thickness=8)
-          #rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
           # out.write(frame)
           cv2.imshow('frame',frame)
           if cv2.waitKey(1) & 0xFF == ord('q'):
