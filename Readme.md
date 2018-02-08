@@ -21,6 +21,7 @@ Alternatively, users can install dependencies using pip:
 sudo pip install pillow
 sudo pip install lxml
 sudo pip install matplotlib
+sudo pip install opencv-python
 ```
 ### Compiling the protocol buffers
 `protoc object_detection/protos/*.proto --python_out=.`
