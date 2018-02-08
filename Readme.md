@@ -23,8 +23,7 @@ sudo pip install lxml
 sudo pip install jupyter
 sudo pip install matplotlib
 ```
-
-Run the script using 
+## Running the script
 
 ` python run.py `
 
