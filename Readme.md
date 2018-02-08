@@ -20,7 +20,6 @@ Alternatively, users can install dependencies using pip:
 ``` bash
 sudo pip install pillow
 sudo pip install lxml
-sudo pip install jupyter
 sudo pip install matplotlib
 ```
 ### Compiling the protocol buffers
