@@ -14,7 +14,10 @@ sudo apt-get install protobuf-compiler python-pil python-lxml
 sudo pip install jupyter
 sudo pip install matplotlib
 ```
-
+Install instructions for MAC OS X:
+```
+brew install protobuf
+```
 Alternatively, users can install dependencies using pip:
 
 ``` bash
