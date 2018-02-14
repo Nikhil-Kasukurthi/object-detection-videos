@@ -3,10 +3,12 @@ import cv2
 
 cap = cv2.VideoCapture('240p1.mp4')
 framerate = cap.get(5)
+print(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 while(cap.isOpened()):
     # Capture frame-by-frame
     frame_id = cap.get(1)
     ret, frame = cap.read()
+
     
     
     # Display the resulting frame

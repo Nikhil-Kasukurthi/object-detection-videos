@@ -6,6 +6,7 @@ import sys
 import tarfile
 import tensorflow as tf
 import zipfile
+import json
 
 from collections import defaultdict
 from io import StringIO
@@ -89,40 +90,50 @@ with detection_graph.as_default():
         annotations['video_id'] = 240
         annotations['frames'] = []
         framerate = cap.get(5)
+        annotations['videoShape'] = {}
+        annotations['videoShape']['height'] = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
+        annotations['videoShape']['width'] = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
+        
+
         while(True):
             # Capture frame-by-frame
             frame_id = cap.get(1)
             ret, frame = cap.read()
-
             # Display the resulting frame
-            if(frame_id % math.floor(framerate) == 0):
-                image_np_expanded = np.expand_dims(frame, axis=0)
-                annotations_frame = {}
-                annotations_frame['time'] = frame_id // framerate
-                annotations_frame['annotations'] = []
-                (boxes, scores, classes, num) = sess.run(
-                    [detection_boxes, detection_scores,
-                     detection_classes, num_detections],
-                    feed_dict={image_tensor: image_np_expanded})
-                # vis_util.visualize_boxes_and_labels_on_image_array(
-                #     frame,
-                #     np.squeeze(boxes),
-                #     np.squeeze(classes).astype(np.int32),
-                #     np.squeeze(scores),
-                #     category_index,
-                #     use_normalized_coordinates=True,
-                #     line_thickness=8)
-                annotations_frame['annotations'].append(
-                    class_utils.get_class(np.squeeze(classes).astype(np.int32), 
-                    	category_index, np.squeeze(boxes), 
-                    	np.squeeze(scores)))
-                annotations['frames'].append(annotations_frame)
+            if ret:
+                if(frame_id % math.floor(framerate) == 0):
+                    image_np_expanded = np.expand_dims(frame, axis=0)
+                    annotations_frame = {}
+                    annotations_frame['time'] = frame_id // framerate
+                    annotations_frame['annotations'] = []
+                    (boxes, scores, classes, num) = sess.run(
+                        [detection_boxes, detection_scores,
+                         detection_classes, num_detections],
+                        feed_dict={image_tensor: image_np_expanded})
+                    # vis_util.visualize_boxes_and_labels_on_image_array(
+                    #     frame,
+                    #     np.squeeze(boxes),
+                    #     np.squeeze(classes).astype(np.int32),
+                    #     np.squeeze(scores),
+                    #     category_index,
+                    #     use_normalized_coordinates=True,
+                    #     line_thickness=8)
+                    annotations_frame['annotations'].append(
+                        class_utils.get_class(np.squeeze(classes).astype(np.int32), 
+                        	category_index, np.squeeze(boxes), 
+                        	np.squeeze(scores)))
+                    annotations['frames'].append(annotations_frame)
 
-                cv2.imshow('frame', frame)
-                print(frame_id)
-            if cv2.waitKey(1) & 0xFF == ord('q'):
+                    cv2.imshow('frame', frame)
+                    print(frame_id)
+                if cv2.waitKey(1) & 0xFF == ord('q'):
+                    break
+            
+            else:
                 break
-        print(annotations)
+        print(json.dumps(annotations))
+        with open('annotaion.json','w') as file:
+            json.dump(annotations, file)
         cap.release()
         # # out.release()
         cv2.destroyAllWindows()

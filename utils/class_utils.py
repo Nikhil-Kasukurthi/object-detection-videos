@@ -16,7 +16,7 @@ def get_class(classes, category_index, boxes, scores, min_score_thresh=.5):
             bounding_box['ymin'] = box[0]
             bounding_box['xmin'] = box[1]
             bounding_box['ymax'] = box[2]
-            bounding_box['xmax'] = box[3]
+            bounding_box['xmax'] = box[3]            
             annotation_frame['bounding_box'] = bounding_box
             annotation.append(annotation_frame)
 
